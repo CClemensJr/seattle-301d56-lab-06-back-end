@@ -33,17 +33,23 @@
       response.send(new Location(query, geoData.results[0]));
     } 
     catch (error) {
-      response.status(500).send('An error has occurred');
+      response.status(500).send('Status 500: I done messed up.');
     }
   }
 
   function getWeather(request, response) {
-    let weatherData = require('./data/darksky.json');
-    let weatherObjects = [];
+    try {
+      let weatherData = require('./data/darksky.json');
+      let weatherObjects = [];
+  
+      weatherData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
+  
+      response.send(weatherObjects);
 
-    weatherData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
-
-    response.send(weatherObjects);
+    }
+    catch {
+      response.status(500).send('Status 500: I done messed up.')
+    }
   }
 
 
