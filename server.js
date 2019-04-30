@@ -12,7 +12,6 @@
   // let locationObject;
   // let weatherArray = [];
   app.use(cors());
-  app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 
 
 /****************
@@ -26,7 +25,13 @@
 /****************
  * Callback Functions
  */
-  
+  function getLocation(request, response) {
+    response.send('In getLocation');
+  }
+
+  function getWeather(reqquest, response) {
+    response.send('In getWeather');
+  }
 
 /****************
  * Object Constructors
@@ -68,5 +73,6 @@
 // });
 
 
+app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 
 app.listen(port,() => console.log(`Listening on port ${port}`));
