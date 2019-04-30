@@ -26,16 +26,17 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    let jsonData = require('./data/geo.json');
+    const query = request.query.data;
+    const geoData = require('./data/geo.json');
 
-    response.send(new Location(jsonData.results[0]));
+    response.send(new Location(query, geoData.results[0]));
   }
 
   function getWeather(request, response) {
-    let jsonData = require('./data/darksky.json');
+    let weatherData = require('./data/darksky.json');
     let weatherObjects = [];
 
-    jsonData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
+    weatherData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
 
     response.send(weatherObjects);
   }
@@ -44,8 +45,9 @@
 /****************
  * Object Constructors
  */
-  function Location(data) {
-    this.formatted_address = data.formatted_address;
+  function Location(query, data) {
+    this.search_query = query;
+    this.formatted_query = data.formatted_address;
     this.latitude = data.geometry.location.lat;
     this.longitude = data.geometry.location.lng;
   }
@@ -55,6 +57,6 @@
     this.time = new Date(day.time * 1000).toString().slice(0, 15);
   }
 
-// app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
+
 
 app.listen(port,() => console.log(`Listening on port ${port}`));
