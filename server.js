@@ -49,7 +49,10 @@
     this.longitude = data.geometry.location.lng;
   }
 
-
+  function Weather(summary, time) {
+    this.summary = summary;
+    this.time = new Date(time).toString();
+  }
 //   function Location (search_query, formatted_query, latitude, longitude){
 //   this.search_query = search_query;
 //   this.formatted_query = formatted_query;
