@@ -9,9 +9,9 @@
   const app = express();
   const cors = require('cors');
   const port = process.env.PORT || 3000;
-  // let locationObject;
-  // let weatherArray = [];
+
   app.use(cors());
+
 
 
 /****************
@@ -26,13 +26,18 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    let data = require('./data/geo.json');
+    let jasonData = require('./data/geo.json');
 
-    response.send(new Location(data.results[0]));
+    response.send(new Location(jsonData.results[0]));
   }
 
   function getWeather(request, response) {
-    response.send('In getWeather');
+    let jsonData = require('./data/darksky.json');
+    let weatherObjects = [];
+
+    jsonData.daily.data.forEach((obj) => weatherObjects.push(new Weather(obj.summary, obj.time)));
+
+    response.send(weatherObjects);
   }
 
 /****************
@@ -43,6 +48,8 @@
     this.latitude = data.geometry.location.lat;
     this.longitude = data.geometry.location.lng;
   }
+
+
 //   function Location (search_query, formatted_query, latitude, longitude){
 //   this.search_query = search_query;
 //   this.formatted_query = formatted_query;
