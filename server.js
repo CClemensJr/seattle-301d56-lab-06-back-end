@@ -26,10 +26,15 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    const query = request.query.data;
-    const geoData = require('./data/geo.json');
-
-    response.send(new Location(query, geoData.results[0]));
+    try {
+      const query = request.query.data;
+      const geoData = require('./data/geo.json');
+  
+      response.send(new Location(query, geoData.results[0]));
+    } 
+    catch (error) {
+      response.status(500).send('An error has occurred');
+    }
   }
 
   function getWeather(request, response) {
