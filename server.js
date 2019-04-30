@@ -35,10 +35,11 @@
     let jsonData = require('./data/darksky.json');
     let weatherObjects = [];
 
-    jsonData.daily.data.forEach((obj) => weatherObjects.push(new Weather(obj.summary, obj.time)));
+    jsonData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
 
     response.send(weatherObjects);
   }
+
 
 /****************
  * Object Constructors
@@ -49,9 +50,9 @@
     this.longitude = data.geometry.location.lng;
   }
 
-  function Weather(summary, time) {
-    this.summary = summary;
-    this.time = new Date(time).toString();
+  function Weather(day) {
+    this.forecast = day.summary;
+    this.time = new Date(day.time * 1000).toString().slice(0, 15);
   }
 //   function Location (search_query, formatted_query, latitude, longitude){
 //   this.search_query = search_query;
@@ -87,6 +88,6 @@
 // });
 
 
-app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
+// app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 
 app.listen(port,() => console.log(`Listening on port ${port}`));
