@@ -40,8 +40,8 @@
  */
   function Location(data) {
     this.formatted_address = data.formatted_address;
-    this.latitude = data.location.lat;
-    this.longitude = data.location.lng;
+    this.latitude = data.geometry.location.lat;
+    this.longitude = data.geometry.location.lng;
   }
 //   function Location (search_query, formatted_query, latitude, longitude){
 //   this.search_query = search_query;
