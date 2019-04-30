@@ -26,19 +26,30 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    const query = request.query.data;
-    const geoData = require('./data/geo.json');
-
-    response.send(new Location(query, geoData.results[0]));
+    try {
+      const query = request.query.data;
+      const geoData = require('./data/geo.json');
+  
+      response.send(new Location(query, geoData.results[0]));
+    } 
+    catch (error) {
+      response.status(500).send('Status 500: I done messed up.');
+    }
   }
 
   function getWeather(request, response) {
-    let weatherData = require('./data/darksky.json');
-    let weatherObjects = [];
+    try {
+      let weatherData = require('./data/darksky.json');
+      let weatherObjects = [];
+  
+      weatherData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
+  
+      response.send(weatherObjects);
 
-    weatherData.daily.data.forEach((day) => weatherObjects.push(new Weather(day)));
-
-    response.send(weatherObjects);
+    }
+    catch {
+      response.status(500).send('Status 500: I done messed up.')
+    }
   }
 
 
@@ -54,7 +65,7 @@
 
   function Weather(day) {
     this.forecast = day.summary;
-    this.time = new Date(day.time * 1000).toString().slice(0, 15);
+    this.time = new Date(day.time).toDateString();
   }
 
 
