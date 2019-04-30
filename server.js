@@ -26,7 +26,7 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    let jasonData = require('./data/geo.json');
+    let jsonData = require('./data/geo.json');
 
     response.send(new Location(jsonData.results[0]));
   }
@@ -54,39 +54,6 @@
     this.forecast = day.summary;
     this.time = new Date(day.time * 1000).toString().slice(0, 15);
   }
-//   function Location (search_query, formatted_query, latitude, longitude){
-//   this.search_query = search_query;
-//   this.formatted_query = formatted_query;
-//   this.latitude = latitude;
-//   this.longitude = longitude;
-// }
-// function Weather (forecast, time){
-//   this.summary = forecast;
-//   this.time = time;
-//   weatherArray.push(this);
-// }
-
-// app.get('/location', (request, response) => {
-//   let dataFile = require('./data/geo.json');
-//   let search_query = dataFile.results[0].address_components[0].long_name;
-//   let formatted_query = dataFile.results[0].formatted_address;
-//   let latitude = dataFile.results[0].geometry.location.lat;
-//   let longitude = dataFile.results[0].geometry.location.lng;
-//   locationObject = new Location(search_query, formatted_query, latitude, longitude);
-//   response.status(200).send(locationObject);
-
-// });
-
-// app.get('/weather', (request, response) => {
-//   weatherArray = [];
-//   let dataFile = require('./data/darksky.json');
-//   let weatherForecast = dataFile.daily.data[0];
-//   // for(let i =0; i < weatherForecast.length; i++){
-//   //   new Weather(weatherForecast.summary, new Date(weatherForecast.time));
-//   // }
-//   response.status(200).send(weatherForecast);
-// });
-
 
 // app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 
