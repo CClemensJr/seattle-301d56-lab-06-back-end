@@ -26,19 +26,23 @@
  * Callback Functions
  */
   function getLocation(request, response) {
-    response.send('In getLocation');
+    let data = require('./data/geo.json');
+
+    response.send(new Location(data.results[0]));
   }
 
-  function getWeather(reqquest, response) {
+  function getWeather(request, response) {
     response.send('In getWeather');
   }
 
 /****************
  * Object Constructors
  */
-  // function Location(data) {
-  //   this.formatted
-  // }
+  function Location(data) {
+    this.formatted_address = data.formatted_address;
+    this.latitude = data.location.lat;
+    this.longitude = data.location.lng;
+  }
 //   function Location (search_query, formatted_query, latitude, longitude){
 //   this.search_query = search_query;
 //   this.formatted_query = formatted_query;
