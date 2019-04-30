@@ -5,14 +5,22 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+let locationObject;
+let weatherArray = [];
 const port = process.env.PORT || 3000;
 app.use(cors());
+
 
 function Location (search_query, formatted_query, latitude, longitude){
   this.search_query = search_query;
   this.formatted_query = formatted_query;
   this.latitude = latitude;
   this.longitude = longitude;
+}
+function Weather (forecast, time){
+  this.summary = forecast;
+  this.time = time;
+  weatherArray.push(this);
 }
 
 app.get('/location', (request, response) => {
@@ -21,15 +29,20 @@ app.get('/location', (request, response) => {
   let formatted_query = dataFile.results[0].formatted_address;
   let latitude = dataFile.results[0].geometry.location.lat;
   let longitude = dataFile.results[0].geometry.location.lng;
-
-
-  ///Users/aantber/Documents/codefellows/301/seattle-301d56/lab-06-back-end/data/geo.json
-  ///Users/aantber/Documents/codefellows/301/seattle-301d56/lab-06-back-end/server.js
-
-  response.status(200).send(new Location(search_query, formatted_query, latitude, longitude));
+  locationObject = new Location(search_query, formatted_query, latitude, longitude);
+  response.status(200).send(locationObject);
 
 });
 
+app.get('/weather', (request, response) => {
+  weatherArray = [];
+  let dataFile = require('./data/darksky.json');
+  let weatherForecast = dataFile.daily.data[0];
+  // for(let i =0; i < weatherForecast.length; i++){
+  //   new Weather(weatherForecast.summary, new Date(weatherForecast.time));
+  // }
+  response.status(200).send(weatherForecast);
+});
 // app.get('/location', (request, response) => {
 //   let LongNLats = {
 //     departure: Date.now(),
